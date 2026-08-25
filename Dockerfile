@@ -1,7 +1,11 @@
-FROM php:8.3-cli
+FROM dunglas/frankenphp:php8.4
 
 WORKDIR /app
 
 COPY . .
 
-CMD ["sh", "-c", "php -S 0.0.0.0:${PORT:-8080} -t scr"]
+RUN chown -R www-data:www-data /app
+
+ENV SERVER_NAME=:8080
+
+CMD ["frankenphp", "run", "--config", "/app/Caddyfile"]
